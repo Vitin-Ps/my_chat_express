@@ -1,0 +1,62 @@
+npm init -y
+
+npm i express
+
+npm i --save-dev typescript @types/node @types/express ts-node-dev
+
+
+crie uma pasta tsconfig.json
+
+
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "./dist"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
+
+
+npm i prettier
+
+crie uma pasta .prettierrc
+
+{
+    "singleQuote": true,
+    "semi": true,
+    "tabWidth": 2,
+    "printWidth": 150
+  }
+  
+
+  em package.json adicione as configurações em scripts 
+
+  "scripts": {
+  "build": "tsc",
+  "start": "node dist/index.js",
+  "dev": "ts-node-dev src/index.ts"
+}
+
+npm run build
+
+npm start
+
+npm install --save-dev nodemon ts-node
+
+criar pasta nodemon.json
+
+{
+    "watch": ["src"],
+    "ext": "ts",
+    "exec": "npm run build && node dist/index.js"
+}
+  
+
+
+npm install socket.io
+npm install --save-dev @types/socket.io
