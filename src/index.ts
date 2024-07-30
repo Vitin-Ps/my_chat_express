@@ -11,12 +11,6 @@ const PORT = process.env.PORT || 3005;
 const app = express();
 
 // Configure o middleware CORS
-app.use(
-  cors({
-    origin: '*', // Permite todas as origens, ajuste conforme necessário
-    methods: ['GET', 'POST'],
-  }),
-);
 
 // Crie o servidor HTTP
 const server = http.createServer(app);
@@ -25,6 +19,13 @@ app.get('/', (req, res) => {
   res.send('Você entrou no servidor');
 });
 // Configure o Socket.IO com a configuração de CORS
+app.use(
+  cors({
+    origin: '*', // Permite todas as origens, ajuste conforme necessário
+    methods: ['GET', 'POST'],
+  }),
+);
+
 const io = new Server(server, {
   cors: {
     origin: '*', // Permite todas as origens, ajuste conforme necessário
