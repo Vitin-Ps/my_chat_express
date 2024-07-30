@@ -3,14 +3,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
+const cors_1 = __importDefault(require("cors"));
 const socket_io_1 = require("socket.io");
 const PORT = process.env.PORT || 3005;
-// Crie o servidor HTTP sem a necessidade de usar o Express
-const server = http_1.default.createServer();
+// Crie a aplicação Express
+const app = (0, express_1.default)();
+// Configure o middleware CORS
+app.use((0, cors_1.default)({
+    origin: '*', // Permite todas as origens, ajuste conforme necessário
+    methods: ['GET', 'POST'],
+}));
+// Crie o servidor HTTP
+const server = http_1.default.createServer(app);
+app.get('/', (req, res) => {
+    res.send('Você entrou no servidor');
+});
+// Configure o Socket.IO com a configuração de CORS
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: '*',
+        origin: '*', // Permite todas as origens, ajuste conforme necessário
         methods: ['GET', 'POST'],
     },
 });
@@ -48,9 +61,10 @@ io.on('connection', (socket) => {
         console.log('Usuário desconectado');
         peersConectados = peersConectados.filter((peerSocketId) => peerSocketId !== socket.id);
         users = users.filter((user) => user.peer !== socket.id);
-        // console.log('Peers Conectados: ', peersConectados);
+        console.log('Peers Conectados: ', peersConectados);
     });
 });
+// Inicie o servidor HTTP
 server.listen(PORT, () => {
     console.log(`Server iniciado na porta ${PORT}`);
 });
