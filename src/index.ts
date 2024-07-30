@@ -1,15 +1,28 @@
+import express from 'express';
 import http from 'http';
+import cors from 'cors';
 import { Server, Socket } from 'socket.io';
 import { User } from './interfaces/User';
 import { Mensagem } from './interfaces/Mensagem';
 
 const PORT = process.env.PORT || 3005;
 
-// Crie o servidor HTTP sem a necessidade de usar o Express
-const server = http.createServer();
+// Crie a aplicação Express
+const app = express();
+
+// Configure o middleware CORS
+app.use(cors({
+  origin: '*', // Permite todas as origens, ajuste conforme necessário
+  methods: ['GET', 'POST'],
+}));
+
+// Crie o servidor HTTP
+const server = http.createServer(app);
+
+// Configure o Socket.IO com a configuração de CORS
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: '*', // Permite todas as origens, ajuste conforme necessário
     methods: ['GET', 'POST'],
   },
 });
@@ -56,10 +69,11 @@ io.on('connection', (socket: Socket) => {
 
     peersConectados = peersConectados.filter((peerSocketId) => peerSocketId !== socket.id);
     users = users.filter((user) => user.peer !== socket.id);
-    // console.log('Peers Conectados: ', peersConectados);
+    console.log('Peers Conectados: ', peersConectados);
   });
 });
 
+// Inicie o servidor HTTP
 server.listen(PORT, () => {
   console.log(`Server iniciado na porta ${PORT}`);
 });
