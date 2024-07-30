@@ -21,14 +21,14 @@ app.get('/', (req, res) => {
 // Configure o Socket.IO com a configuração de CORS
 app.use(
   cors({
-    origin: '*', // Permite todas as origens, ajuste conforme necessário
+    origin: 'http://localhost:3000', // Permite todas as origens, ajuste conforme necessário
     methods: ['GET', 'POST'],
   }),
 );
 
 const io = new Server(server, {
   cors: {
-    origin: '*', // Permite todas as origens, ajuste conforme necessário
+    origin: 'http://localhost:3000', // Permite todas as origens, ajuste conforme necessário
     methods: ['GET', 'POST'],
   },
 });
