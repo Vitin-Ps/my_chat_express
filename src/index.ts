@@ -7,28 +7,20 @@ import { Mensagem } from './interfaces/Mensagem';
 
 const PORT = process.env.PORT || 3005;
 
-// Crie a aplicação Express
 const app = express();
 
-// Configure o middleware CORS
 
-// Crie o servidor HTTP
 const server = http.createServer(app);
 
 app.get('/', (req, res) => {
   res.send('Você entrou no servidor');
 });
-// Configure o Socket.IO com a configuração de CORS
-app.use(
-  cors({
-    origin: 'http://localhost:3000', // Permite todas as origens, ajuste conforme necessário
-    methods: ['GET', 'POST'],
-  }),
-);
+
+app.use(cors());
 
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000', // Permite todas as origens, ajuste conforme necessário
+    origin: '*',
     methods: ['GET', 'POST'],
   },
 });

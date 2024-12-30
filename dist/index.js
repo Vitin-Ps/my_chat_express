@@ -8,22 +8,15 @@ const http_1 = __importDefault(require("http"));
 const cors_1 = __importDefault(require("cors"));
 const socket_io_1 = require("socket.io");
 const PORT = process.env.PORT || 3005;
-// Crie a aplicação Express
 const app = (0, express_1.default)();
-// Configure o middleware CORS
-app.use((0, cors_1.default)({
-    origin: '*', // Permite todas as origens, ajuste conforme necessário
-    methods: ['GET', 'POST'],
-}));
-// Crie o servidor HTTP
 const server = http_1.default.createServer(app);
 app.get('/', (req, res) => {
     res.send('Você entrou no servidor');
 });
-// Configure o Socket.IO com a configuração de CORS
+app.use((0, cors_1.default)());
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: '*', // Permite todas as origens, ajuste conforme necessário
+        origin: '*',
         methods: ['GET', 'POST'],
     },
 });
